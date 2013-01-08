@@ -66,7 +66,7 @@ options, arguments = p.parse_args()
 if not options.appleID or not options.password:
     bail_out('Both Apple ID and password have to be specified')
 
-initial_url = 'http://developer.apple.com/iphone/index.action'
+initial_url = 'https://developer.apple.com/iphone/index.action'
 # determine login url
 data = fetch(initial_url)
 login_url = extract_helper('href="(.+?login.+)"', data)
@@ -84,11 +84,11 @@ if data.find('saveTeamSelection.action') != -1:
     match = re.search('value="(.+)">%s</option>' % options.team, data)
     if not match:
         bail_out('Team %s is not found.' % options.team)
-    form_action = urlparse.urljoin(initial_url, '/iphone/saveTeamSelection.action')
+    form_action = urlparse.urljoin(initial_url, '/devcenter/saveTeamSelection.action')
     data = fetch(form_action, {'memberDisplayId':match.group(1), 'action:saveTeamSelection!save':'Continue'})
     
 if data.find('/iphone/my/') == -1:
-    provision_url = 'http://developer.apple.com/iphone/manage/provisioningprofiles/index.action'
+    provision_url = 'https://developer.apple.com/ios/manage/provisioningprofiles/index.action'
 else:
     provision_url = 'http://developer.apple.com/iphone/my/provision/index.action'
 
